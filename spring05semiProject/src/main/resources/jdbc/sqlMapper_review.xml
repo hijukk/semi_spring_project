@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace가 유니크해야함 (패키지 이름을 넣으면 결국 유니크 함) -->
+<mapper namespace="test.com.semiproject.review">
+	<select id="r_selectAll"
+		resultType="test.com.semiproject.model.ReviewVO">
+		select * from (select rownum as rn, RNUM, RTITLE, RCONTENT, RWRITER, RDATE,
+		RSAVE_FILE_NAME from review order by rn asc) where rn between
+		#{startRow} and #{endRow}
+
+	</select>
+
+	<select id="r_selectOne"
+		resultType="test.com.semiproject.model.ReviewVO">
+		select * from review where rnum = #{rnum}
+	</select>
+
+	<select id="r_searchList_rtitle"
+		resultType="test.com.semiproject.model.ReviewVO">
+		select * from review where rtitle like #{searchWord}
+	</select>
+
+	<select id="r_searchList_rcontent"
+		resultType="test.com.semiproject.model.ReviewVO">
+		select * from review where rcontent like #{searchWord}
+	</select>
+
+	<select id="r_searchList_rwriter"
+		resultType="test.com.semiproject.model.ReviewVO">
+		select * from review where rwriter like #{searchWord}
+	</select>
+
+	<select id="r_insert">
+		INSERT INTO REVIEW (RNUM, RTITLE, RCONTENT, RWRITER,
+		RSAVE_FILE_NAME)
+		VALUES
+		(SEQ_REVIEW.nextval, #{rtitle}, #{rcontent},
+		#{rwriter}, #{rsave_file_name})
+	</select>
+
+	<select id="r_delete">
+		delete from review where rnum = #{rnum}
+	</select>
+
+	<select id="r_update">
+		update review set RTITLE=#{rtitle},
+		RCONTENT=#{rcontent}, RWRITER=#{rwriter},
+		RSAVE_FILE_NAME=#{rsave_file_name} where rnum = #{rnum}
+	</select>
+
+	<select id="r_getPagecount" resultType="int">
+		select ceil((select
+		count(*) from review)/#{blockCount}) from dual
+	</select>
+
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="test.com.semiproject.ars">
+	<select id="ars_phonecheck"
+		resultType="test.com.semiproject.model.JoinVO">
+		SELECT * FROM join WHERE TEL = #{tel}
+	</select>
+
+	<select id="ars_phoneplan"
+		resultType="test.com.semiproject.model.ARSVO">
+		SELECT * FROM phoneplan order by name asc
+	</select>
+
+	<select id="ars_optservice"
+		resultType="test.com.semiproject.model.ARSVO">
+		SELECT * FROM optservice
+	</select>
+
+
+</mapper>

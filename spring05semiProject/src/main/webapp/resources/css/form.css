@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+form,h1{
+	padding-left: 20px;
+}
+
+input[type="text"],input[type="number"],input[type="password"]{
+	height: 15px;
+}
+select{
+	height: 15px;
+	margin-left: 10px;
+}

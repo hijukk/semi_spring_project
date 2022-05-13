@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace가 유니크해야함 (패키지 이름을 넣으면 결국 유니크 함) -->
+<mapper namespace="test.com.semiproject.login">
+	<select id="login"
+		resultType="test.com.semiproject.model.LoginVO">
+		SELECT * FROM join WHERE ID = #{id} and PW = #{pw}
+	</select>
+
+</mapper>

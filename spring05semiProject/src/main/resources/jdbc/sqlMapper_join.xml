@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace가 유니크해야함 (패키지 이름을 넣으면 결국 유니크 함) -->
+<mapper namespace="test.com.semiproject.join">
+	<select id="idCheck"
+		resultType="test.com.semiproject.model.JoinVO">
+		SELECT id FROM join WHERE ID = #{id}
+	</select>
+
+	<select id="jSelectAll"
+		resultType="test.com.semiproject.model.JoinVO">
+		
+		select * from 
+		(select ROWNUM AS rnum, ID,PW,NAME,JDATE, GENDER,TEL  
+		from (select * from join order by ID asc) 
+		order by rnum asc) 
+		where rnum between #{startRow} and #{endRow}
+	</select>
+
+	<select id="jSelectOne"
+		resultType="test.com.semiproject.model.JoinVO">
+		select * from join where id = #{id}
+	</select>
+
+	<select id="jInsert"
+		resultType="test.com.semiproject.model.JoinVO">
+		INSERT INTO join (ID,PW,NAME,GENDER,TEL) VALUES
+		(#{id},#{pw},#{name},#{gender},#{tel})
+	</select>
+
+	<select id="jSearchList_id"
+		resultType="test.com.semiproject.model.JoinVO">
+		select * from join where id like #{searchword}
+	</select>
+
+	<select id="jSearchList_gender"
+		resultType="test.com.semiproject.model.JoinVO">
+		select * from join where id like #{searchword}
+	</select>
+
+	<select id="jUpdate"
+		resultType="test.com.semiproject.model.JoinVO">
+		update join set pw = #{pw}, name = #{name}, tel = #{tel}
+		where id= #{id}
+	</select>
+	<select id="jDelete"
+		resultType="test.com.semiproject.model.JoinVO">
+		delete from join where id = #{id}
+	</select>
+	
+	<select id="j_getPagecount" resultType="int">
+		select ceil((select
+		count(*) from join)/#{blockCount}) from dual
+	</select>
+
+</mapper>

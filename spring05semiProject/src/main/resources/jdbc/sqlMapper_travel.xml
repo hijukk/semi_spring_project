@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace가 유니크해야함 (패키지 이름을 넣으면 결국 유니크 함) -->
+<mapper namespace="test.com.semiproject.travel">
+	<select id="t_selectAll"
+		resultType="test.com.semiproject.model.TravelVO">
+		select * from 
+		(select ROWNUM AS rnum, ATTRACTION, LOCATION, CONTENT, TDATE, SAVE_FILE_NAME 
+		from (select * from travel order by attraction asc) 
+		order by rnum asc) 
+		where rnum between #{startRow} and #{endRow}
+	</select>
+
+	<select id="t_selectOne"
+		resultType="test.com.semiproject.model.TravelVO">
+		select * from travel where attraction = #{attraction}
+	</select>
+
+	<select id="t_searchList"
+		resultType="test.com.semiproject.model.TravelVO">
+		select * from travel where tdate like #{searchWord} order
+		by
+		attraction asc
+	</select>
+
+	<select id="t_insert">
+		insert into travel (ATTRACTION, LOCATION, CONTENT,
+		TDATE, SAVE_FILE_NAME )
+		VALUES
+		(#{attraction},#{location},#{content},#{tdate},#{save_file_name})
+	</select>
+
+
+	<select id="t_update">
+		update travel set
+		location= #{location}, content=
+		#{content}, tdate= #{tdate}, save_file_name=
+		#{save_file_name}
+		where
+		attraction =
+		#{attraction}
+	</select>
+
+	<select id="t_delete">
+		delete from travel where attraction=#{attraction}
+	</select>
+
+	<select id="t_mySelectAll"
+		resultType="test.com.semiproject.model.TravelVO">
+		select * from mytravel where id = #{session_id} order by
+		save_date desc
+	</select>
+
+	<select id="t_mySelectAll_admin"
+		resultType="test.com.semiproject.model.TravelVO">
+		select * from mytravel order by save_date desc
+	</select>
+
+	<select id="t_myInsert">
+		insert into MYTRAVEL (ATTRACTION,ID) VALUES
+		(#{attraction},#{id})
+	</select>
+
+	<select id="t_myDelete">
+		delete from mytravel where attraction= #{attraction}
+		and id= #{id}
+	</select>
+
+	<select id="t_login"
+		resultType="test.com.semiproject.model.TravelVO">
+		SELECT ID FROM join WHERE ID = #{id} and PW = #{pw}
+	</select>
+	
+	
+	<select id="t_getPagecount" resultType="int">
+		select ceil((select count(*) from travel)/#{blockCount}) from dual
+	</select>
+	
+
+</mapper>
